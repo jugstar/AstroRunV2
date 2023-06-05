@@ -1608,9 +1608,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 948953057}
-  forwardMovement: {x: 0, y: 0, z: 0}
-  leftMovement: {x: 0, y: 0, z: 0}
-  rightMovement: {x: 0, y: 0, z: 0}
   speed: 12
   jumpForce: 20
   groundMask:

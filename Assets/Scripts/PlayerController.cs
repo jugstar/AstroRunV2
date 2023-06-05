@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 leftMovement;
     private Vector3 rightMovement;
     public float speed = 15f;
+    public float sideSpeed = 35f;
     public float jumpForce = 20;
     bool alive = true;
     [SerializeField] LayerMask groundMask;
@@ -40,7 +41,8 @@ public class PlayerController : MonoBehaviour
         if (!alive) return;
         forwardMovement = transform.forward * speed * Time.deltaTime;
         rb.MovePosition(rb.position + forwardMovement);
-        if (Input.GetKey(KeyCode.LeftArrow))
+        // Uncomment the below lines if keyboard input is to be used.
+        /*if (Input.GetKey(KeyCode.LeftArrow))
         {
             moveLeft();
         }
@@ -51,20 +53,20 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow))
         {
             jump();
-        }
+        }*/
     }
 
     public void moveLeft()
     {
 
-        leftMovement = transform.right * speed * Time.deltaTime;
+        leftMovement = transform.right * sideSpeed * Time.deltaTime;
         rb.MovePosition(rb.position - leftMovement);
     }
 
     public void moveRight()
     {
 
-        rightMovement = transform.right * speed *Time.deltaTime;
+        rightMovement = transform.right * sideSpeed * Time.deltaTime;
         rb.MovePosition(rb.position + rightMovement);
     }
 

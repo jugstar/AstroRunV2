@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
@@ -7,11 +8,16 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
 
-    public Rigidbody rb;
-    public Vector3 movement;
-    public float speed = 12f;
- 
-
+    [SerializeField] Rigidbody rb;
+    private Vector3 forwardMovement;
+    private Vector3 leftMovement;
+    private Vector3 rightMovement;
+    public float speed = 15f;
+    public float jumpForce = 20;
+    bool alive = true;
+    [SerializeField] LayerMask groundMask;
+    private float maxJumpHeight = 2f;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -19,38 +25,70 @@ public class PlayerController : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        /*
-        * Note: Player movement may need to change so that input is UI buttons.
-        *       The game is currently using PC buttons for input
-        */
-
-        // Instantiate new Vector3 with input from x (to move left/right) and y (jump) axis. 
-        // No need to move character forward as platform will be moving towards the character.
-        movement = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-        
-
-
-
+        if (transform.position.y < -5)
+        {
+            Die();
+        }
     }
 
-     //FixedUpdate is called at measured intervals. FixedUpdate used for physics functions
+
+    //FixedUpdate is called at measured intervals. FixedUpdate used for physics functions
     private void FixedUpdate()
     {
-        moveCharacter(movement);
+        if (!alive) return;
+        forwardMovement = transform.forward * speed * Time.deltaTime;
+        rb.MovePosition(rb.position + forwardMovement);
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            moveLeft();
+        }
+        else if (Input.GetKey(KeyCode.RightArrow)) 
+        {
+            moveRight();
+        } 
+        else if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow))
+        {
+            jump();
+        }
     }
 
-    private void moveCharacter(Vector3 direction)
+    public void moveLeft()
     {
-        
-        direction = direction.normalized * speed * Time.deltaTime;
-        rb.MovePosition(transform.position + direction);
-        
+
+        leftMovement = transform.right * speed * Time.deltaTime;
+        rb.MovePosition(rb.position - leftMovement);
     }
 
-    // Function detects if we collide with obstacle
+    public void moveRight()
+    {
+
+        rightMovement = transform.right * speed *Time.deltaTime;
+        rb.MovePosition(rb.position + rightMovement);
+    }
+
+    public void jump()
+    {
+        if (transform.position.y < maxJumpHeight)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+    }
+
+    public void Die()
+    {
+        alive = false;
+        // Restart the game
+        Invoke("Restart", 2);
+    }
+
+    void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    /*Function detects if we collide with obstacle
     private void OnTriggerEnter(Collider other) 
     {
         Debug.Log("Collision Detected." +other.name);
@@ -58,5 +96,6 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.name == "Obstacle(Clone)") {
             SceneManager.LoadScene("Game");
         }
-    }
+    }*/
+
 }

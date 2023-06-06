@@ -367,6 +367,7 @@
 "Assets/Scripts/GroundTile.cs"
 "Assets/Scripts/Home.cs"
 "Assets/Scripts/Obstacle.cs"
+"Assets/Scripts/PlayerController.cs"
 "Assets/Scripts/PlayerMovement.cs"
 "Assets/Scripts/setting.cs"
 "Assets/Scripts/soundScript.cs"

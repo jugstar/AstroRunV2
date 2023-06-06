@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     bool alive = true;
     [SerializeField] LayerMask groundMask;
     private float maxJumpHeight = 2f;
-    
+
 
     // Start is called before the first frame update
     void Start()

@@ -22,3 +22,6 @@ Left movement: Keys - A or Left Arrow
 Right movement: Keys - D or Right Arrow
 Jump movement: Key - Space bar
 
+======== Link To V1 =======================
+
+https://github.com/jugstar/AstroRun/
